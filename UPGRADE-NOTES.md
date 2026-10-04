@@ -48,3 +48,10 @@ Written without a browser. Do a live pass: tab through header -> tabs -> card ->
 - **Freeflow**: autosave (24 h, this device), templates, word/line counts, text size, spacing, high contrast, mono, spellcheck toggle, read aloud, undo clear, shortcuts.
 - **Content flags** from the validator (left untouched): two cards have mismatched brackets, `{like baggage, seats, or meals]` (ETG Chat Scripts, "ATC-CXL - non-ref tax") and `[currency}` ("CXL - fare rules").
 - Not render-tested (no browser here).
+
+## Round 4
+- **Shell lock**: the app frame is `position: fixed` to the viewport and `html/body` never scroll, with `!important` guards, so header, sidebar, tab bar and footer stay put on every page; only `.main-page` (and the Freeflow text area) scroll. Verified in headless Chromium at 1366x634: container = viewport, footer pinned, Links page fills the screen. `_headers` no longer caches `/assets/*` for an hour (stale CSS could be mixed with new HTML).
+- **Scrollbars**: slim pill thumbs with a soft track that brighten and thicken on hover and while scrolling (Chrome/Edge/Safari); thin themed scrollbar in Firefox. Content tab bar now sticks with a solid backing.
+- **Ads**: ad units set in `config.js` (`end`, `banner`, `links`); the vertical rail is removed entirely. Every ad container is zero-height and invisible until AdSense reports `filled` (it then expands; unfilled ones stay gone). Links feed now sits under the tiles.
+- **Freeflow**: page is a flex column; the text area takes the remaining height and scrolls inside itself.
+- Tip: in AdSense turn Auto ads off for this site, otherwise Google may add placements beside your manual units.

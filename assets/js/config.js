@@ -16,10 +16,8 @@ window.ACES_CONFIG = {
     enabled: true,
     client: 'ca-pub-6978764838614552',
     // Paste real ad-unit IDs (AdSense > Ads > By ad unit). An empty ID keeps that placement switched off.
-    slots: { rail: '6965605774', end: '7813895425', banner: '5267623137', links: '6500813756' },
-    railPages: ['scripts', 'checklist'],        // add 'errands' only if your client policy allows ads beside customer data
+    slots: { end: '7813895425', banner: '5267623137', links: '6500813756' },   // the old rail unit (6965605774) is no longer used
     endPages: ['scripts', 'checklist'],
-    linksAfterTile: 6,                          // Links feed: unit sits after this many link tiles
     // Rotating banner between scripts: on for showSec, off for restMin, then requests a new ad.
     rotation: {
       enabled: true,

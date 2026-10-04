@@ -12,7 +12,7 @@
     document.querySelectorAll('.side-panel button').forEach(b => b.removeAttribute('aria-current'));
     btn.setAttribute('aria-current', 'page');
     document.dispatchEvent(new Event('aces:page'));
-    $('.main-page').scrollTop = 0;
+    $('.main-page').scrollTo({ top: 0, behavior: 'instant' });
   };
   document.querySelectorAll('.side-panel button').forEach(b => b.closest('.nav-item').addEventListener('click', () => setPage(b)));
   setPage($('#script-page-action'));
@@ -77,5 +77,10 @@
   const lt = $('.legal-toggle');
   lt.addEventListener('click', () => { const o = lt.getAttribute('aria-expanded') === 'true'; lt.setAttribute('aria-expanded', String(!o)); $('#legal-links').classList.toggle('open', !o); });
   $('.to-top').addEventListener('click', e => { e.preventDefault(); $('.main-page').scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
+  // scrollbar thumbs brighten while their container is scrolling (CSS does the animation)
+  document.addEventListener('scroll', e => {
+    const t = e.target; if (!t || t.nodeType !== 1) return;
+    t.classList.add('is-scrolling'); clearTimeout(t._sb); t._sb = setTimeout(() => t.classList.remove('is-scrolling'), 900);
+  }, { capture: true, passive: true });
   window.addEventListener('pagehide', () => ls.set('aces.lastSeen', Date.now()));
 })();

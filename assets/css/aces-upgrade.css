@@ -69,19 +69,6 @@
 .legal-links { display:flex; flex-wrap:wrap; gap:4px 16px; }
 .legal-links a { color:#dbe6f0; padding:4px 0; }
 
-/* Ads: reserved space, labelled, never beside a control; hidden until a real unit ID is configured */
-.ad-slot { margin:32px 12px; padding:8px; min-height:100px; text-align:center; border:1px dashed rgba(255,255,255,.4); border-radius:8px; }
-.ad-label { display:block; margin-bottom:6px; font-size:var(--fs-cap); letter-spacing:.08em; text-transform:uppercase; color:#dbe6f0; }
-.ad-slot ins.adsbygoogle[data-ad-status="unfilled"] { display:none !important; }
-.ad-slot.is-empty, .ad-slot[hidden] { display:none; }
-.ad-infeed { grid-column:1 / -1; }
-.search-active .ad-infeed { display:none; }
-.ad-rail { display:none; }
-@media (min-width:1280px) {
-  .ad-rail { display:block; flex:0 0 320px; align-self:flex-start; position:sticky; top:64px; min-height:280px; }
-  .ad-rail[hidden] { display:none; }
-}
-
 /* ===== Shell: one scroller, dynamic viewport, never wider than the screen (fixes the white strip on the right) ===== */
 html, body { max-width:100%; overflow-x:clip; }
 body { overflow-y:hidden; }
@@ -136,7 +123,7 @@ body { overflow-y:hidden; }
 .nav-tooltip { display:none; }
 
 /* ===== Tab groups ===== */
-.script-nav-container { display:flex; flex-wrap:wrap; justify-content:flex-start; gap:8px; padding:8px 12px; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,.25); }
+.script-nav-container { display:flex; flex-wrap:wrap; justify-content:flex-start; gap:8px; padding:8px 12px 12px; margin-bottom:0; border-bottom:1px solid rgba(255,255,255,.25); }
 .tab-group { position:relative; }
 .script-nav-container .group-btn { display:inline-flex; align-items:center; gap:8px; min-height:40px; margin:0; padding:6px 14px; border:2px solid transparent; border-radius:10px; background:var(--g); color:#fff; font-size:14px; font-weight:600; letter-spacing:0; box-shadow:none; cursor:pointer; }
 .script-nav-container .group-btn:hover:not(.active) { background:var(--g); color:#fff; box-shadow:0 0 0 2px rgba(255,255,255,.7); }
@@ -156,7 +143,7 @@ body { overflow-y:hidden; }
 .tab-menu .nav-badge { position:static; flex:none; }
 
 /* ===== Script headers: gap between them, colour-coded by group, channel as text ===== */
-.script-module.active { row-gap:14px; }
+.script-module.active { row-gap:0; }
 .script-title-chat.active, .script-title-voice.active { background:var(--g, var(--g-more)); border-color:transparent; border-radius:var(--radius) 0 0 var(--radius); }
 .script-title-chat.active::before, .script-title-voice.active::before { align-self:center; margin-bottom:6px; padding:1px 10px; border-radius:999px; background:rgba(0,0,0,.28); color:#fff; font-size:11px; font-weight:600; }
 .script-title-chat.active::before { content:"Chat"; }
@@ -230,11 +217,9 @@ body { overflow-y:hidden; }
 
 /* ===== Footer: permanent row of the app grid; never moves with content ===== */
 :root { --foot-h:36px; }
-.app-body { display:grid; grid-template-columns:88px minmax(0,1fr) auto; grid-template-rows:minmax(0,1fr) var(--foot-h); grid-template-areas:"nav main rail" "foot foot foot"; }
+.app-body { display:grid; grid-template-columns:88px minmax(0,1fr); grid-template-rows:minmax(0,1fr) var(--foot-h); grid-template-areas:"nav main" "foot foot"; }
 .side-panel { grid-area:nav; min-height:0; }
 .main-page { grid-area:main; min-height:0; }
-.ad-rail { grid-area:rail; }
-@media (min-width:1280px) { .ad-rail { width:320px; } }
 .site-footer { grid-area:foot; position:relative; z-index:50; height:var(--foot-h); margin:0; display:flex; align-items:center; }
 .footer-bottom { width:100%; flex-wrap:nowrap; gap:12px; padding:0 16px; }
 .copyright { flex:1 1 0; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -274,10 +259,7 @@ body { overflow-y:hidden; }
 }
 
 /* ===== Ads ===== */
-.ad-banner { grid-column:1 / -1; margin:6px 0; max-height:300px; overflow:hidden; transition:opacity .4s ease, max-height .5s ease, margin .5s ease, padding .5s ease, min-height .5s ease; }
-.ad-banner.is-leaving { opacity:0; max-height:0; min-height:0; margin:0; padding-top:0; padding-bottom:0; border-width:0; }
 .search-active .ad-banner { display:none; }
-.ad-links { grid-column:1 / -1; margin:0; }
 .card-copy[hidden] { display:none; }
 
 /* ===== Freeflow notes: premium + accessibility tools ===== */
@@ -292,3 +274,42 @@ body { overflow-y:hidden; }
 #notes-page[data-mono] #ff-txt { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; }
 #notes-page[data-contrast] #ff-txt { background:#000; color:#ffe066; border:2px solid #ffe066; caret-color:#fff; }
 @media (max-width:768px) { .ff-extras select, .ff-extras .freeflow-tool-btn { min-height:44px; } }
+
+/* ===== Round 4: shell lock. The page itself never scrolls; only .main-page and inner regions do. ===== */
+html, body { height:100% !important; overflow:hidden !important; }
+.app-container { position:fixed !important; inset:0 !important; width:auto !important; height:auto !important; min-height:0 !important; max-width:none !important; margin:0 !important; display:flex !important; flex-direction:column !important; overflow:hidden !important; }
+.head-banner { flex:none; }
+.app-body { flex:1 1 0 !important; min-height:0 !important; overflow:hidden; }
+.main-page { min-height:0; overflow-y:auto !important; scrollbar-gutter:stable; }
+@media (prefers-reduced-motion: no-preference) { .main-page { scroll-behavior:smooth; } }
+@media (min-width:769px) { .script-title-chat.active, .script-title-voice.active, .script-card-sub.active { margin-bottom:14px; } }
+
+/* ===== Ads: invisible and zero-height until AdSense has actually filled them ===== */
+.ad-slot { margin:0; padding:0; border:0 solid transparent; max-height:0; overflow:hidden; opacity:0; text-align:center; transition:max-height .5s ease, opacity .4s ease, margin .5s ease, padding .5s ease; }
+.ad-slot.is-filled { max-height:620px; opacity:1; margin:24px 12px; padding:8px; border:1px solid rgba(255,255,255,.22); border-radius:8px; }
+.ad-slot.is-empty, .ad-slot[hidden] { display:none; }
+.ad-slot ins.adsbygoogle[data-ad-status="unfilled"] { display:none !important; }
+.ad-label { display:block; margin-bottom:6px; font-size:var(--fs-cap); letter-spacing:.08em; text-transform:uppercase; color:#dbe6f0; }
+.ad-banner { grid-column:1 / -1; }
+.ad-banner.is-filled { margin:6px 0 20px; }
+.ad-links.is-filled { margin:24px 0 0; }
+.ad-slot.is-leaving { max-height:0; opacity:0; margin:0; padding:0; border-width:0; }
+.search-active .ad-banner { display:none; }
+
+/* ===== Freeflow: the text area takes the remaining space and is the only thing that scrolls ===== */
+#notes-page.active { display:flex; flex-direction:column; height:100%; min-height:0; }
+#notes-page.active > * { flex:none; }
+#notes-page.active > .freeflow-input { flex:1 1 auto; min-height:0; height:auto; }
+#notes-page .freeflow-input textarea { flex:1 1 auto; height:auto; min-height:120px; overflow-y:auto; resize:none; }
+
+/* ===== Scrollbars: slim pill, soft at rest, brighter and thicker on hover and while scrolling ===== */
+:root { --sb-rest:rgba(160,205,255,.38); --sb-hover:rgba(160,205,255,.62); --sb-hot:rgba(160,205,255,.92); --sb-track:rgba(0,0,0,.2); }
+textarea, .tab-menu, .legal-links, .archived-table-container, .checklist-canvas { --sb-rest:var(--line-strong); --sb-hover:var(--line-strong); --sb-hot:var(--accent); --sb-track:rgba(128,140,152,.14); }
+::-webkit-scrollbar { width:14px; height:14px; }
+::-webkit-scrollbar-track { background-color:var(--sb-track); background-clip:padding-box; border:4px solid transparent; border-radius:999px; }
+::-webkit-scrollbar-thumb { background-color:var(--sb-rest); background-clip:padding-box; border:5px solid transparent; border-radius:999px; transition:background-color .3s ease, border-width .25s ease; }
+:hover::-webkit-scrollbar-thumb { background-color:var(--sb-hover); border-width:4px; }
+.is-scrolling::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover { background-color:var(--sb-hot); border-width:3px; }
+::-webkit-scrollbar-thumb:active { background-color:#fff; border-width:2px; }
+::-webkit-scrollbar-corner { background:transparent; }
+@supports not selector(::-webkit-scrollbar) { * { scrollbar-width:thin; scrollbar-color:var(--sb-hover) transparent; } }

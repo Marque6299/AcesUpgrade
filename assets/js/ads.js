@@ -34,8 +34,7 @@
     if (linksDone || !S.links) return;
     const grid = document.querySelector('#links-page .links-btn-container'); if (!grid) return;
     linksDone = true;
-    const tiles = grid.querySelectorAll('.link-list'), el = make('ad-links', 'links', S.links);
-    (tiles[Math.min(cfg.linksAfterTile || 6, tiles.length) - 1] || grid.lastElementChild).after(el);
+    const el = make('ad-links', 'links', S.links); grid.after(el);
     requestAnimationFrame(() => fill(el));
   }
 
@@ -72,7 +71,6 @@
 
   function showFor() {
     const p = page();
-    document.querySelectorAll('.ad-rail').forEach(s => { s.hidden = !(cfg.railPages || []).includes(p); });
     document.querySelectorAll('.ad-end').forEach(s => { s.hidden = !(cfg.endPages || []).includes(p); });
     if (p === 'links') linksFeed();
     if (p !== 'scripts' && st.el) drop(true);           // pause while another tab is open
@@ -82,9 +80,8 @@
   window.AcesAds = {
     init() {
       if (!cfg.enabled || window.ACES_CONSENT?.ads === false) return;
-      if (S.rail) document.querySelector('.app-body').append(make('ad-rail', 'rail', S.rail));
       if (S.end) document.querySelector('.main-page').append(make('ad-end', 'end', S.end));
-      document.querySelectorAll('.ad-rail, .ad-end').forEach(x => io.observe(x));
+      document.querySelectorAll('.ad-end').forEach(x => io.observe(x));
       showFor();
       document.addEventListener('aces:page', showFor);
       if (R.enabled && S.banner) {
